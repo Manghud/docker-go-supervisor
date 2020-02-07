@@ -1,6 +1,12 @@
 #!/bin/sh
-cd "$1/src/$MODULE_PATH"
+cd "/go/src/$MODULE_PATH"
 echo "Building $MAIN_FILE_PATH"
-go build -o "$1/app" -i $MAIN_FILE_PATH
-echo "Build successful. Binary moved to $1"
-supervisord -n
+go build -o "/go/app" -i $MAIN_FILE_PATH
+go clean -cache
+echo "Build successful. Binary moved to /go"
+if [ -z ${LOG_LEVEL+info} ];
+  then echo "Defaulting LogLevel to info";
+fi
+supervisord
+supervisorctl status
+tail -n 100 -F /var/log/supervisord.log

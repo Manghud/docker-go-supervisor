@@ -11,6 +11,4 @@ RUN mkdir /etc/supervisor.d/
 ADD build.sh /go/build.sh
 ADD app.ini /etc/supervisor.d/app.ini
 
-CMD ["/go/build.sh", "/go"]
-
-EXPOSE 3000
+CMD ["/go/build.sh"]
