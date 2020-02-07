@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  test-service:
+    image: manghud/go-supervisor:1.13.7
+    container_name: 'test-service'
+    expose:
+      - '$PORT'
+    volumes:
+      - '${SRC_DIR}:/go/src'
+      - '${LOG_DIR}:/go/log/'
+    logging:
+      options:
+        max-size: 10m
+        max-file: '10'
+    environment:
+      # supervisor loglevel
+      - 'LOG_LEVEL=info'
+      # path for go.mod file. defaults to /go/src
+      - 'MODULE_PATH=src/server'
+      # path for go app to build
+      - 'MAIN_FILE_PATH=cmd/main.go'
+      ## Your App Variables
+      - 'PORT=:${PORT}'
+    network_mode: 'bridge'
+networks:
+  default:
+    external:
+      name: bridge
